@@ -11,7 +11,7 @@ Recommended to install globally:
 ```javascript
 
 function doStuffWithFiles(['file1','file2','file3'], callback){
-    callback = functime.cb("FilesProcess", callback);
+    callback = callback.time("FilesProcess");
 
     // Do some async operations..
 

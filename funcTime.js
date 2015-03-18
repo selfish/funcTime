@@ -40,12 +40,19 @@ function timeEnd(label, cb) {
  */
 function cbTime(label, cb) {
     time(label);
+    label = label || cb.name;
     return function () {
         timeEnd(label, cb);
         cb.apply(this, arguments);
     }
 }
 
-module.exports = {
-    cb: cbTime
+Function.prototype.time = function (label) {
+    var func = this;
+    label = label || this.name;
+    time(label);
+    return function () {
+        timeEnd(label, func);
+        func.apply(this, arguments);
+    }
 };
