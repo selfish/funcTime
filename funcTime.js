@@ -22,7 +22,7 @@ function timeEnd(label) {
     _times[label].calls += 1;
 
     // Set duration:
-    var duartion = Date.now() - _times[label];
+    var duartion = Date.now() - _times[label].start;
 
     // Update average:
     _times[label].avg =
