@@ -13,7 +13,7 @@ function time(label) {
     _times[label].timestamp = Date.now();
 
 }
-function timeEnd(label) {
+function timeEnd(label, cb) {
     if (!_times[label]) {
         throw new Error('No such label: ' + label);
     }
@@ -23,6 +23,7 @@ function timeEnd(label) {
 
     // Set duration:
     var duartion = Date.now() - _times[label].timestamp;
+    cb.$execTime = duration;
 
     // Update average:
     _times[label].avg =
@@ -40,7 +41,7 @@ function timeEnd(label) {
 function cbTime(label, cb) {
     time(label);
     return function () {
-        timeEnd(label);
+        timeEnd(label, cb);
         cb.apply(this, arguments);
     }
 }
