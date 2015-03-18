@@ -1,0 +1,22 @@
+{
+  "name": "funcTime",
+  "version": "0.0.1",
+  "description": "A utility to make timing functions easier on a callback call basis.",
+  "main": "funcTime.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NitaiPerez/funcTime"
+  },
+  "keywords": [
+    "debug"
+  ],
+  "author": "Nitai J. Perez <nitai.perez@gmail.com> (https://github.com/NitaiPerez)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NitaiPerez/funcTime/issues"
+  },
+  "homepage": "https://github.com/NitaiPerez/funcTime"
+}
