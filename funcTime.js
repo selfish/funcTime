@@ -22,29 +22,16 @@ function timeEnd(label, cb) {
     _times[label].calls += 1;
 
     // Set duration:
-    var duartion = Date.now() - _times[label].timestamp;
-    cb.$execTime = duration;
+    cb.$execTime = _times[label].duration = Date.now() - _times[label].timestamp;
 
     // Update average:
-    _times[label].avg =
+    cb.$execTimeAvg = _times[label].avg =
         _times[label].avg
-            ? ((_times[label].avg * (_times[label].calls - 1)) + duartion) / _times[label].calls
+            ? ((_times[label].avg * (_times[label].calls - 1)) + cb.$execTime) / _times[label].calls
             : duartion;
 
     // log:
-    console.log('%s: %dms (avg: %dms across %s calls)', label, duartion.toFixed(2), _times[label].avg.toFixed(2), _times[label].calls);
-}
-
-/**
- * Wrap a callback in order to time it's call time.
- */
-function cbTime(label, cb) {
-    time(label);
-    label = label || cb.name;
-    return function () {
-        timeEnd(label, cb);
-        cb.apply(this, arguments);
-    }
+    console.log('%s: %dms (avg: %dms across %s calls)', label, cb.$execTime.toFixed(2), _times[label].avg.toFixed(2), _times[label].calls);
 }
 
 Function.prototype.time = function (label) {
@@ -54,5 +41,6 @@ Function.prototype.time = function (label) {
     return function () {
         timeEnd(label, func);
         func.apply(this, arguments);
+        // TODO: Make sure to restore function to original non-wrapped.
     }
 };
