@@ -72,3 +72,17 @@ function getAppIDs(cb) {
 ```
 
 ---------------------------------------
+
+## Coming Up (TDL)
+
+1. Analytic tools:
+   * get last execution result for label.
+   * Get avg for label.
+   * Get calls for label.
+2. Implement functime.cb(obj, "function", function stub(){})
+3. Config object: {
+   * `silent`: _false_,
+   * `logLevel`: _debug_, warn-trace
+   * `rounding`: _2_, errParam:0
+}
+4. Poo
