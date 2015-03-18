@@ -32,7 +32,7 @@ function timeEnd(label, cb) {
             : duartion;
 
     // log:
-    console.log('%s: %dms (avg: %dms across %s calls)', label, duartion, _times[label].avg, _times[label].calls);
+    console.log('%s: %dms (avg: %dms across %s calls)', label, duartion.toFixed(2), _times[label].avg.toFixed(2), _times[label].calls);
 }
 
 /**
