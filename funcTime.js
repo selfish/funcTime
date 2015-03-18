@@ -8,30 +8,30 @@ var _times = {};
 
 function time(label) {
     // Init label:
-    if (!this._times[label]) this._times[label] = {calls: 0};
+    if (!_times[label]) _times[label] = {calls: 0};
 
-    this._times[label].timestamp = Date.now();
+    _times[label].timestamp = Date.now();
 
 }
 function timeEnd(label) {
-    if (!this._times[label]) {
+    if (!_times[label]) {
         throw new Error('No such label: ' + label);
     }
 
     // Label called, increment count:
-    this._times[label].calls += 1;
+    _times[label].calls += 1;
 
     // Set duration:
-    var duartion = Date.now() - this._times[label];
+    var duartion = Date.now() - _times[label];
 
     // Update average:
-    this._times[label].avg =
-        this._times[label].avg
-            ? ((avg * this._times[label].calls - 1) + duartion) / this._times[label].calls
+    _times[label].avg =
+        _times[label].avg
+            ? ((avg * _times[label].calls - 1) + duartion) / _times[label].calls
             : duartion;
 
     // log:
-    console.log('%s: %dms (avg: %dms across %s calls)', label, duartion, this._times[label].avg, this._times[label].calls);
+    console.log('%s: %dms (avg: %dms across %s calls)', label, duartion, _times[label].avg, _times[label].calls);
 }
 
 /**
