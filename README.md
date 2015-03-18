@@ -49,7 +49,7 @@ __Example__
 ```js
 function getAppIDs(cb) {
     // Callback is called normally:
-    cb = functime.cb("getApps execution measure", cb);
+    cb = cb.time("getApps execution measure");
 
     sqlGet("SELECT `app_id` FROM `apps` ", function (err, rows) {
         if (err) {
