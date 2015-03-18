@@ -22,12 +22,12 @@ function timeEnd(label) {
     _times[label].calls += 1;
 
     // Set duration:
-    var duartion = Date.now() - _times[label].start;
+    var duartion = Date.now() - _times[label].timestamp;
 
     // Update average:
     _times[label].avg =
         _times[label].avg
-            ? ((avg * _times[label].calls - 1) + duartion) / _times[label].calls
+            ? ((_times[label].avg * (_times[label].calls - 1)) + duartion) / _times[label].calls
             : duartion;
 
     // log:
