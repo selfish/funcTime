@@ -23,5 +23,9 @@
   "bugs": {
     "url": "https://github.com/NitaiPerez/funcTime/issues"
   },
-  "homepage": "https://github.com/NitaiPerez/funcTime"
+  "homepage": "https://github.com/NitaiPerez/funcTime",
+  "devDependencies": {
+    "mocha": "^2.2.1",
+    "should": "^5.2.0"
+  }
 }
