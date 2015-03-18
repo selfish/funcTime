@@ -46,5 +46,5 @@ function cbTime(label, cb) {
 }
 
 module.exports = {
-    cbTime: cbTime
+    cb: cbTime
 };
