@@ -66,7 +66,7 @@ function getAppIDs(cb) {
 }
 
 // Console will show:
-// → [INFO] console - FilesProcess: 330ms (avg: 295ms across 6 calls)
+// → [INFO] console - getApps execution measure: 330ms (avg: 295ms across 6 calls)
 // Also: callback.$execTime is now 330.
 
 ```
