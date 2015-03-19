@@ -5,8 +5,9 @@ in order to provide a more sophisticated timing functionality.
 
     npm install functime
 
-## Quick Example
+## Quick Examples
 
+####Internal flow (wrapping the callback from within the caller):
 ```javascript
 
 function doStuffWithFiles(['file1','file2','file3'], callback){
@@ -21,6 +22,23 @@ function doStuffWithFiles(['file1','file2','file3'], callback){
 // Console shows:
 // → [INFO] console - FilesProcess: 330ms (avg: 295ms across 6 calls)
 // Also: callback.$execTime is 330.
+
+```
+
+####External flow (wrapping from outside, when calling):
+```javascript
+
+var pkg = require('somePackage');
+// Assume pkg has a function 'func' that gets a callback:
+
+function callback(){...}
+
+pkg.func(callback.time("Timing package.func"));
+//OR Annonymously:
+
+pkg.func(function(){
+    //...
+}.time("Timing package.func"));
 
 ```
 
@@ -99,6 +117,8 @@ console.log("Method do() took: %sms", do.$execTime())
 
 ```
 
+---------------------------------------
+
 <a name="execTimeAvg" />
 ### Function.$execTimeAvg()
 
@@ -117,6 +137,7 @@ console.log("Method do() took %sms on average", do.$execTimeAvg())
 
 ```
 
+---------------------------------------
 
 <a name="execTimeMax" />
 ### Function.$execTimeMax()
@@ -136,6 +157,7 @@ console.log("Method do() took: %sms on it's longest run.", do.$execTimeMin())
 
 ```
 
+---------------------------------------
 
 <a name="execTimeMin" />
 ### Function.$execTimeMin()
@@ -155,6 +177,7 @@ console.log("Method do() took: %sms on it's shortest run.", do.$execTimeMin())
 
 ```
 
+---------------------------------------
 
 <a name="execCount" />
 ### Function.$execCount()
@@ -183,5 +206,8 @@ console.log("Method do() called %s times", do.$execCount())
    * `silent`: (_false_)
    * `logLevel`: (_debug_) warn-trace
    * `rounding`: (_2_) errParam:0
+   * Completely turn off
 2. Support for annonymous functions
 3. Add flush method & label clear.
+4. Full report printing.
+5. Parallel calls support.
