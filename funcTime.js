@@ -12,7 +12,7 @@ function time(label) {
     if (!_times[label]) _times[label] = {calls: 0, min: Infinity, max: -1};
     // Avoid overriding processes:
     if (_times[label].timestamp) {
-        throw new Error("Previous timestamp exists");
+        console.error("Previous timestamp exists for label '%s'. Parallel running support will be implemented in future version", label);
     } else {
         return (_times[label].timestamp = Date.now());
     }
@@ -42,7 +42,7 @@ function timeEnd(label) {
         _times[label].timestamp = 0;
 
         // Log result:
-        console.log('%s: %dms (avg: %dms across %s calls)', label, duration.toFixed(2), avg.toFixed(2), calls);
+        console.log('[functime - %s]: %dms (avg: %dms across %s calls)', label, duration.toFixed(2), avg.toFixed(2), calls);
     }
 }
 
