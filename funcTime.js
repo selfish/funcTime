@@ -13,7 +13,7 @@ function time(label) {
     _times[label].timestamp = Date.now();
 
 }
-function timeEnd(label, cb) {
+function timeEnd(label, func) {
     if (!_times[label]) {
         throw new Error('No such label: ' + label);
     }
@@ -22,16 +22,17 @@ function timeEnd(label, cb) {
     _times[label].calls += 1;
 
     // Set duration:
-    cb.$execTime = _times[label].duration = Date.now() - _times[label].timestamp;
+    func.$execTime = _times[label].duration = Date.now() - _times[label].timestamp;
 
     // Update average:
-    cb.$execTimeAvg = _times[label].avg =
+    func.$execTimeAvg = _times[label].avg =
         _times[label].avg
-            ? ((_times[label].avg * (_times[label].calls - 1)) + cb.$execTime) / _times[label].calls
-            : duartion;
+            ? ((_times[label].avg * (_times[label].calls - 1)) + func.$execTime) / _times[label].calls
+            : func.$execTime;
 
-    // log:
-    console.log('%s: %dms (avg: %dms across %s calls)', label, cb.$execTime.toFixed(2), _times[label].avg.toFixed(2), _times[label].calls);
+    // Log result:
+    console.log('%s: %dms (avg: %dms across %s calls)', label, func.$execTime.toFixed(2), _times[label].avg.toFixed(2), _times[label].calls);
+    return;
 }
 
 Function.prototype.time = function (label) {
@@ -39,7 +40,7 @@ Function.prototype.time = function (label) {
     label = label || this.name;
     time(label);
     return function () {
-        timeEnd(label, func);
+        timeEnd(label, this);
         func.apply(this, arguments);
         // TODO: Make sure to restore function to original non-wrapped.
     }
