@@ -7,7 +7,7 @@
 var functime = require('../funcTime');
 var should = require('should');
 
-describe('main', function () {
+describe('functime', function () {
     it('should attach base functions to wrapped method', function (done) {
         function test() {
             // Note this is the actual callback, so assertions go here:
