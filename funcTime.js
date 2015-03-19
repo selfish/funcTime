@@ -79,5 +79,9 @@ Function.prototype.time = function (label) {
 };
 
 module.exports = {
-    execTime: $execTime
+    execTime: $execTime,
+    execTimeAvg: $execTimeAvg,
+    execTimeMax: $execTimeMax,
+    execTimeMin: $execTimeMin,
+    execCount: $execCount
 };
