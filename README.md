@@ -29,7 +29,7 @@ function doStuffWithFiles(['file1','file2','file3'], callback){
 
 ### Methods
 
-* [`cb`](#cb)
+* [`time`](#time)
 
 #### Wrapped function methods
 
@@ -40,15 +40,15 @@ function doStuffWithFiles(['file1','file2','file3'], callback){
 * [`$execCount`](#execCount)
 
 
-<a name="cb" />
-### cb(label, callback)
+<a name="time" />
+### Function.time([label])
 
 Times and logs time passed until execution of callback.
 Keeps stats across calls as well.
 
 __Arguments__
 
-* `label` - The label to print when reporting time.
+* `label` - (optional) The label to print when reporting time. If not provided, function name will be used.
 * `callback` - A callback to report to log when called.
 
 __Example__
