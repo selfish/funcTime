@@ -180,6 +180,8 @@ console.log("Method do() called %s times", do.$execCount())
 ## Coming Up (TDL)
 
 1. Config object:
-   * `silent`: _false_,
-   * `logLevel`: _debug_, warn-trace
-   * `rounding`: _2_, errParam:0
+   * `silent`: (_false_)
+   * `logLevel`: (_debug_) warn-trace
+   * `rounding`: (_2_) errParam:0
+2. Support for annonymous functions
+3. Add flush method & label clear.
