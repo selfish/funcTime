@@ -2,9 +2,8 @@
 
 funcTime is a debug utility that wraps around a method and utilizes `console.time/End()`
 in order to provide a more sophisticated timing functionality.
-Recommended to install globally:
 
-    npm install -g functime
+    npm install functime
 
 ## Quick Example
 
@@ -15,11 +14,11 @@ function doStuffWithFiles(['file1','file2','file3'], callback){
 
     // Do some async operations..
 
-    // Callback will be called normally, console will log execution time for doStuffWithFiles().
+    // Callback will be called normally.
     callback(err, result);
 }
 
-// Console will show:
+// Console shows:
 // → [INFO] console - FilesProcess: 330ms (avg: 295ms across 6 calls)
 // Also: callback.$execTime is 330.
 
@@ -31,6 +30,15 @@ function doStuffWithFiles(['file1','file2','file3'], callback){
 ### Methods
 
 * [`cb`](#cb)
+
+#### Wrapped function methods
+
+* [`$execTime`](#execTime)
+* [`$execTimeAvg`](#execTimeAvg)
+* [`$execTimeMax`](#execTimeMax)
+* [`$execTimeMin`](#execTimeMin)
+* [`$execCount`](#execCount)
+
 
 <a name="cb" />
 ### cb(label, callback)
@@ -73,16 +81,105 @@ function getAppIDs(cb) {
 
 ---------------------------------------
 
+<a name="execTime" />
+### Function.$execTime()
+
+Returns last call logged time.
+
+__Example__
+
+
+```js
+function do(){}
+do = do.time("Do!");
+do();
+
+console.log("Method do() took: %sms", do.$execTime())
+// → "Method do() took: 550ms"
+
+```
+
+<a name="execTimeAvg" />
+### Function.$execTimeAvg()
+
+Returns average logged time.
+
+__Example__
+
+
+```js
+function do(){}
+do = do.time("Do!");
+do();
+
+console.log("Method do() took %sms on average", do.$execTimeAvg())
+// → "Method do() took: 550ms on average"
+
+```
+
+
+<a name="execTimeMax" />
+### Function.$execTimeMax()
+
+Returns maximal logged time.
+
+__Example__
+
+
+```js
+function do(){}
+do = do.time("Do!");
+do();
+
+console.log("Method do() took: %sms on it's longest run.", do.$execTimeMin())
+// → "Method do() took: 2345ms on it's longest run."
+
+```
+
+
+<a name="execTimeMin" />
+### Function.$execTimeMin()
+
+Returns minimal logged time.
+
+__Example__
+
+
+```js
+function do(){}
+do = do.time("Do!");
+do();
+
+console.log("Method do() took: %sms on it's shortest run.", do.$execTimeMin())
+// → "Method do() took: 2ms on it's shortest run."
+
+```
+
+
+<a name="execCount" />
+### Function.$execCount()
+
+Returns amount of times function was called (amount of executions).
+
+__Example__
+
+
+```js
+function do(){}
+do = do.time("Do!");
+do();
+
+console.log("Method do() called %s times", do.$execCount())
+// → "Method do() called 5 times"
+
+```
+
+---------------------------------------
+
+
 ## Coming Up (TDL)
 
-1. Analytic tools:
-   * get last execution result for label.
-   * Get avg for label.
-   * Get calls for label.
-2. Implement functime.cb(obj, "function", function stub(){})
-3. Config object: {
+1. Config object:
    * `silent`: _false_,
    * `logLevel`: _debug_, warn-trace
    * `rounding`: _2_, errParam:0
-}
-4. Poo

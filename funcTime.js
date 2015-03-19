@@ -7,42 +7,62 @@
 var _times = {};
 
 function time(label) {
+
     // Init label:
-    if (!_times[label]) _times[label] = {calls: 0};
-    return (_times[label].timestamp = Date.now());
-}
-
-function timeEnd(label, func) {
-    if (!_times[label]) {
-        throw new Error('No such label: ' + label);
+    if (!_times[label]) _times[label] = {calls: 0, min: Infinity, max: -1};
+    // Avoid overriding processes:
+    if (_times[label].timestamp) {
+        throw new Error("Previous timestamp exists");
+    } else {
+        return (_times[label].timestamp = Date.now());
     }
-
-    // Label called, increment count:
-    var calls = _times[label].calls = (_times[label].calls + 1);
-
-    // Set duration:
-    var duration = _times[label].duration = Date.now() - _times[label].timestamp;
-
-    // Update average:
-    var avg = _times[label].avg =
-        _times[label].avg
-            ? ((_times[label].avg * (calls - 1)) + duration) / calls
-            : duration;
-
-    // Log result:
-    console.log('%s: %dms (avg: %dms across %s calls)', label, duration.toFixed(2), avg.toFixed(2), calls);
 }
 
-function $execTime(label) {
-    return _times[label || this.name].duration || null;
+function timeEnd(label) {
+    // If label is missing, no action should occur
+    if (_times[label].timestamp) {
+
+        // Label called, increment count:
+        var calls = _times[label].calls = (_times[label].calls + 1);
+
+        // Set duration:
+        var duration = _times[label].duration = Date.now() - _times[label].timestamp;
+
+        // Set min/max
+        _times[label].min = Math.min(_times[label].min, duration);
+        _times[label].max = Math.max(_times[label].max, duration);
+
+        // Update average:
+        var avg = _times[label].avg =
+            _times[label].avg
+                ? ((_times[label].avg * (calls - 1)) + duration) / calls
+                : duration;
+
+        // Clear time:
+        _times[label].timestamp = 0;
+
+        // Log result:
+        console.log('%s: %dms (avg: %dms across %s calls)', label, duration.toFixed(2), avg.toFixed(2), calls);
+    }
 }
 
-function $execTimeAvg(label) {
-    return _times[label || this.name].avg || null;
-}
+// Getters:
+// @formatter:off
+function $execTime(label)    { return _times[label || this.label || this.name].duration || null; }
+function $execTimeAvg(label) { return _times[label || this.label || this.name].avg      || null; }
+function $execTimeMax(label) { return _times[label || this.label || this.name].max      || null; }
+function $execTimeMin(label) { return _times[label || this.label || this.name].min      || null; }
+function $execCount(label)   { return _times[label || this.label || this.name].calls    || null; }
+// @formatter:on
 
-function $execCount(label) {
-    return _times[label || this.name].calls || null;
+function register(wrapped, label) {
+    wrapped.$label = label;
+    wrapped.$execTime = $execTime;
+    wrapped.$execTimeAvg = $execTimeAvg;
+    wrapped.$execCount = $execCount;
+    wrapped.$execTimeMax = $execTimeMax;
+    wrapped.$execTimeMin = $execTimeMin;
+    return wrapped;
 }
 
 Function.prototype.time = function (label) {
@@ -50,13 +70,10 @@ Function.prototype.time = function (label) {
     label = label || func.name;
     time(label);
     var wrapped = function () {
-        timeEnd(label, func);
+        timeEnd(label);
         func.apply(this, arguments);
-        // TODO: Make sure to restore function to original non-wrapped.
     };
 
-    wrapped.$execTime = $execTime;
-    wrapped.$execTimeAvg = $execTimeAvg;
-    wrapped.$execCount = $execCount;
-    return wrapped;
+    // Register methods:
+    return register(wrapped, label);
 };
