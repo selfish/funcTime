@@ -48,11 +48,11 @@ function timeEnd(label) {
 
 // Getters:
 // @formatter:off
-function $execTime(label)    { return _times[label || this.label || this.name].duration || null; }
-function $execTimeAvg(label) { return _times[label || this.label || this.name].avg      || null; }
-function $execTimeMax(label) { return _times[label || this.label || this.name].max      || null; }
-function $execTimeMin(label) { return _times[label || this.label || this.name].min      || null; }
-function $execCount(label)   { return _times[label || this.label || this.name].calls    || null; }
+function $execTime(label)    { return _times[label || this.$label || this.name].duration || null; }
+function $execTimeAvg(label) { return _times[label || this.$label || this.name].avg      || null; }
+function $execTimeMax(label) { return _times[label || this.$label || this.name].max      || null; }
+function $execTimeMin(label) { return _times[label || this.$label || this.name].min      || null; }
+function $execCount(label)   { return _times[label || this.$label || this.name].calls    || null; }
 // @formatter:on
 
 function register(wrapped, label) {
