@@ -1,6 +1,6 @@
 {
   "name": "functime",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "A utility to make timing functions easier on a callback call basis.",
   "main": "functime.js",
   "scripts": {
