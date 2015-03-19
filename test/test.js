@@ -47,4 +47,13 @@ describe('main', function () {
         test = test.time("Time to test");
         setTimeout(test, 1000);
     });
+
+    it('should succeed in logging for an annonymous function', function (done) {
+        var label = "Annonymous";
+        setTimeout(function() {
+            // Note this is the actual callback, so assertions go here:
+            functime.execTime(label).should.be.greaterThan(-1);
+            done();
+        }.time(label));
+    });
 });
