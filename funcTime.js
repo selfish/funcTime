@@ -77,3 +77,7 @@ Function.prototype.time = function (label) {
     // Register methods:
     return register(wrapped, label);
 };
+
+module.exports = {
+    execTime: $execTime
+};
