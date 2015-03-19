@@ -9,39 +9,54 @@ var _times = {};
 function time(label) {
     // Init label:
     if (!_times[label]) _times[label] = {calls: 0};
-
-    _times[label].timestamp = Date.now();
-
+    return (_times[label].timestamp = Date.now());
 }
+
 function timeEnd(label, func) {
     if (!_times[label]) {
         throw new Error('No such label: ' + label);
     }
 
     // Label called, increment count:
-    _times[label].calls += 1;
+    var calls = _times[label].calls = (_times[label].calls + 1);
 
     // Set duration:
-    func.$execTime = _times[label].duration = Date.now() - _times[label].timestamp;
+    var duration = _times[label].duration = Date.now() - _times[label].timestamp;
 
     // Update average:
-    func.$execTimeAvg = _times[label].avg =
+    var avg = _times[label].avg =
         _times[label].avg
-            ? ((_times[label].avg * (_times[label].calls - 1)) + func.$execTime) / _times[label].calls
-            : func.$execTime;
+            ? ((_times[label].avg * (calls - 1)) + duration) / calls
+            : duration;
 
     // Log result:
-    console.log('%s: %dms (avg: %dms across %s calls)', label, func.$execTime.toFixed(2), _times[label].avg.toFixed(2), _times[label].calls);
-    return;
+    console.log('%s: %dms (avg: %dms across %s calls)', label, duration.toFixed(2), avg.toFixed(2), calls);
+}
+
+function $execTime(label) {
+    return _times[label || this.name].duration || null;
+}
+
+function $execTimeAvg(label) {
+    return _times[label || this.name].avg || null;
+}
+
+function $execCount(label) {
+    return _times[label || this.name].calls || null;
 }
 
 Function.prototype.time = function (label) {
     var func = this;
-    label = label || this.name;
+    label = label || func.name;
     time(label);
-    return function () {
-        timeEnd(label, this);
+    var wrapped = function () {
+        timeEnd(label, func);
         func.apply(this, arguments);
         // TODO: Make sure to restore function to original non-wrapped.
-    }
+    };
+
+    wrapped.$execTime = $execTime;
+    wrapped.$execTimeAvg = $execTimeAvg;
+    wrapped.$execCount = $execCount;
+    return wrapped;
 };
