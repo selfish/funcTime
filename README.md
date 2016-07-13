@@ -3,7 +3,7 @@
 funcTime is a debug utility that wraps around a method and utilizes `console.time/End()`
 in order to provide a more sophisticated timing functionality.
 
-    npm install functime
+    npm install functime --save-dev
 
 ## Quick Examples
 
