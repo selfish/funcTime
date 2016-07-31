@@ -1,5 +1,9 @@
 # funcTime
 
+[![](https://img.shields.io/npm/v/functime.svg)](https://www.npmjs.com/package/functime)
+[![](https://img.shields.io/npm/dm/functime.svg)](https://www.npmjs.com/package/functime)
+[![Dependency Status](https://david-dm.org/CommonRaven/funcTime.svg)](https://david-dm.org/CommonRaven/funcTime)
+
 funcTime is a debug utility that wraps around a method and utilizes `console.time/End()`
 in order to provide a more sophisticated timing functionality.
 
